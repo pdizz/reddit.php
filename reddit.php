@@ -20,7 +20,12 @@ class Reddit
     
     public function get_post_by_id($post_id)
     {
-        // TODO
+        $post_object = json_decode(file_get_contents("http://www.reddit.com/$post_id/.json"));
+        sleep(2); // after every page request
+        //var_dump($post_object[0]->data->children[0]->data);
+        
+        $post = new Post($post_object[0]->data->children[0]->data);
+        return $post;
     }
     
     public function get_posts_from_subreddit($subreddit, $limit = 25)
@@ -68,6 +73,8 @@ class Subreddit
     public $id;
     public $display_name;
     public $url;
+    
+    // populated by get_posts()
     public $posts;
     
     public function __construct($_data)
@@ -82,7 +89,7 @@ class Subreddit
         $posts_object = json_decode(file_get_contents("http://www.reddit.com$this->url.json?limit=$limit"));
         sleep(2); //after every page request
         
-        //var_dump($posts_object);
+        //var_dump($posts_object->data->children);
         
         $this->posts = array();
         foreach ($posts_object->data->children as $post)
@@ -100,6 +107,9 @@ class Post
     public $title;
     public $author;
     public $url;
+    public $permalink;
+    
+    // populated by get_comments()
     public $comments;
     public $top_comments;
 
@@ -112,6 +122,7 @@ class Post
             $this->title = $_data->title;
             $this->author = $_data->author;
             $this->url = $_data->url;
+            $this->permalink = $_data->permalink;
         }
 
     }
@@ -188,5 +199,7 @@ class Comment
         $this->replies = $_data->replies;
     }
 }
+
+
 
 ?>
