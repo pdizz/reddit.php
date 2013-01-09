@@ -1,6 +1,6 @@
 Sample usage:
 
-'''php
+```php
 <?php 
 
 require_once "reddit.php";
@@ -44,5 +44,4 @@ foreach($my_post->comments as $comment) {
 
 
 ?>
-'''
-
+```
