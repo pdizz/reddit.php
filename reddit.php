@@ -8,7 +8,7 @@ function __autoload($classname) {
 class Reddit
 {
     
-    public static $user_agent = "Generic PHPraw client";
+    public static $user_agent = "Generic PHP client - github.com/pdizz/reddit.php";
     
     public function __construct($user_agent = NULL)
     {
